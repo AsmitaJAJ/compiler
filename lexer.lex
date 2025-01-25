@@ -4,6 +4,18 @@
 #include <string.h>
 #include <ctype.h>
 
+void initialize_table()
+{
+    FILE *file = fopen("symbol_table.csv", "w");
+    if (!file)
+    {
+        perror("Error initializing symbol_table.csv");
+        exit(EXIT_FAILURE);
+    }
+    fprintf(file, "Token,Type,Description\n");
+    fclose(file);
+}
+
 void insert_to_table(char token[],char token_type[],char token_desc[])
 {
     FILE *file;
@@ -12,22 +24,19 @@ void insert_to_table(char token[],char token_type[],char token_desc[])
     fclose(file);
 }
 
-void print_table()
+void print_table() 
 {
-    FILE *file;
-    file=fopen("symbol_table.csv","r");
-    char buffer[1024];
-    int row = 0;
-    int column = 0;
-    while (fgets(buffer,1024, file))
-    {
-        column = 0;
-        row++;
-        char* value = strtok(buffer, ", ");
-        printf("%s", value);
-        value = strtok(NULL, ", ");
-        column++;
+    FILE *file = fopen("symbol_table.csv", "r");
+    if (!file) {
+        perror("Error reading symbol_table.csv");
+        return;
     }
+
+    char buffer[1024];
+    while (fgets(buffer, sizeof(buffer), file)) {
+        printf("%s", buffer);
+    }
+    fclose(file);
 }
 %}
 
@@ -67,7 +76,7 @@ void print_table()
 
 [ \t]+ ; 
 
-"," { printf("%s Delimiter\n", yytext); insert_to_table(yytext,"Delimiter","NULL");}
+"," { printf("%s Delimiter\n", yytext);}
 
 '.*' { 
     if (strchr(yytext, '\n')) {
@@ -77,12 +86,57 @@ void print_table()
         insert_to_table(yytext,"String","NULL");
     }
 }
-"=" { printf("%s Equal\n", yytext); insert_to_table(yytext,"Equal","NULL"); }
-"<" { printf("%s Less than\n", yytext); insert_to_table(yytext,"Less than","NULL"); }
-">" { printf("%s Greater than\n", yytext); insert_to_table(yytext,"Greater than","NULL");}
-"<=" { printf("%s Less than or equal\n", yytext); insert_to_table(yytext,"Less than or equal","NULL");}
-">=" { printf("%s Greater than or equal\n", yytext); insert_to_table(yytext,"Greater than or equal","NULL");}
-"<>" { printf("%s Not equal\n", yytext); insert_to_table(yytext,"Not equal","NULL");}
+
+
+"=="|"<="|"<>"|">="|">"|"<" { 
+    printf("%s Relatonal Operator\n", yytext);
+    char type[200]="Default";
+    switch(yytext[0])
+    {
+        case '=': strcpy(type,"Less than");break;
+        case '<':
+        if(yytext[1]=='\0')
+        {
+            strcpy(type,"Less than");
+        }
+        if(yytext[1]=='>')
+        {
+            strcpy(type,"Not Equal to");
+        }
+        break;
+        if(yytext[1]=='=')
+        {
+            strcpy(type,"Less than Equal to");
+        }break;
+        case '>':
+        if(yytext[1]=='\0')
+        {
+            strcpy(type,"Greater than");
+        }
+        else if(yytext[1]=='=')
+        {
+            strcpy(type,"Greater than Equal to");
+        }break;
+    }
+    insert_to_table(yytext,"Relational Operator",type);
+}
+
+"="     { printf("%s Assignment Operator\n", yytext); insert_to_table(yytext,"Assignment Operator","NULL"); }
+
+"+"|"-"|"*"|"/"|"%" { 
+    printf("%s Arithmetic Operator\n", yytext);
+    char type[200]="Default";
+    switch(yytext[0])
+    {
+        case '+':strcpy(type,"add");break;
+        case '-':strcpy(type,"sub");break;
+        case '*':strcpy(type,"mul");break;
+        case '/':strcpy(type,"div");break;
+        case '%':strcpy(type,"mod");break;
+    }
+    insert_to_table(yytext,"Arithmetic Operator",type);
+}
+
 "!"[^\n]* { printf("%s Comment\n", yytext);}
 \n { ; }
 \"[^\"]*\n { printf("Error: String cannot span multiple lines\n"); }
@@ -91,5 +145,6 @@ void print_table()
 
 int main(void)
 {
+    initialize_table();
     yylex();
 }
