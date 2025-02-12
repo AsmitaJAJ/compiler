@@ -23,9 +23,20 @@
 "write"        { return WRITE; }
 "procedure"    { return PROCEDURE; }
 
-[a-zA-Z_][a-zA-Z0-9_]*  { return IDENTIFIER; }
-[0-9]+                 { return NUMBER; }
-"'.*'"                 { return STRING; }
+[a-zA-Z_][a-zA-Z0-9_]* {
+    yylval.str = strdup(yytext);  // Necessary because yytext is overwritten every time yylex() runs.
+// Since Bison’s $2 just holds a pointer to yytext, it becomes invalid after yylex() scans the next token.
+// We must allocate memory (using strdup) to store a persistent copy of the identifier.
+
+    return IDENTIFIER; 
+}
+
+[0-9]+ {
+    yylval.num = atoi(yytext);
+    return NUMBER;
+}
+
+"'.*'"                 {return STRING; }
 !.*\n                   { /* Ignore comments */ }
 ":="       { return ASSIGNOP; }
 "=="|"<"|">"|"<="|">="|"<>" { return RELOP; }
