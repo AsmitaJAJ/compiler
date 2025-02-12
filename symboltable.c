@@ -22,11 +22,12 @@ unsigned int hash(const char* key) {
     return hash % TABLE_SIZE;
 }
 
-void insert_symbol(const char* name) {
+void insert_symbol(const char* name,const char* type) {
     unsigned int index = hash(name);
     
     Symbol* newSymbol = (Symbol*)malloc(sizeof(Symbol));
     strcpy(newSymbol->name, name);
+    strcpy(newSymbol->type, type);
     newSymbol->next = symbolTable[index];
     symbolTable[index] = newSymbol;
 }
@@ -43,3 +44,20 @@ int lookup_symbol(const char* name) {
     }
     return 0; // Not found
 }
+
+void print_symbol_table() {
+    printf("\nSYMBOL TABLE:\n");
+    printf("----------------------------\n");
+    printf("| %-15s | %-10s |\n", "Identifier", "Type");
+    printf("----------------------------\n");
+
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        Symbol* entry = symbolTable[i];
+        while (entry) {
+            printf("| %-15s | %-10s |\n", entry->name, entry->type);
+            entry = entry->next;
+        }
+    }
+    printf("----------------------------\n");
+}
+
