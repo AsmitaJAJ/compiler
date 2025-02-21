@@ -1,16 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include "symboltable.h"
 #define TABLE_SIZE 100
+Symbol* lookup_symbol(const char* name);
 
-typedef struct Symbol {
-    char name[50];
-    char type[50];
-
-    struct Symbol* next;
-
-} Symbol;
 
 Symbol* symbolTable[TABLE_SIZE];
 
@@ -24,7 +18,11 @@ unsigned int hash(const char* key) {
 
 void insert_symbol(const char* name,const char* type) {
     unsigned int index = hash(name);
-    
+        if (lookup_symbol(name)) { 
+            printf("Error: Duplicate declaration of identifier %s\n", name);
+            return;
+        } 
+        
     Symbol* newSymbol = (Symbol*)malloc(sizeof(Symbol));
     strcpy(newSymbol->name, name);
     strcpy(newSymbol->type, type);
@@ -32,17 +30,17 @@ void insert_symbol(const char* name,const char* type) {
     symbolTable[index] = newSymbol;
 }
 
-int lookup_symbol(const char* name) {
+Symbol* lookup_symbol(const char* name) {
     unsigned int index = hash(name);
     Symbol* entry = symbolTable[index];
 
     while (entry) {
         if (strcmp(entry->name, name) == 0) {
-            return 1; // Found
+            return entry; // Found
         }
         entry = entry->next;
     }
-    return 0; // Not found
+    return NULL; // Not found
 }
 
 void print_symbol_table() {
