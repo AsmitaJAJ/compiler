@@ -1,22 +1,23 @@
-/* A Bison parser, made by GNU Bison 3.8.2.  */
 
-/* Bison interface for Yacc-like parsers in C
+/* A Bison parser, made by GNU Bison 2.4.1.  */
 
-   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2021 Free Software Foundation,
-   Inc.
-
+/* Skeleton interface for Bison's Yacc-like parsers in C
+   
+      Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006
+   Free Software Foundation, Inc.
+   
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
-
+   
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-
+   
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 /* As a special exception, you may create a larger work that contains
    part or all of the Bison parser skeleton and distribute that work
@@ -27,50 +28,99 @@
    special exception, which will cause the skeleton and the resulting
    Bison output files to be licensed under the GNU General Public
    License without this special exception.
-
+   
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-/* DO NOT RELY ON FEATURES THAT ARE NOT DOCUMENTED in the manual,
-   especially those whose name start with YY_ or yy_.  They are
-   private implementation details that can be changed or removed.  */
 
-#ifndef YY_YY_USERS_SEEMA_DESKTOP_PARSER_TAB_H_INCLUDED
-# define YY_YY_USERS_SEEMA_DESKTOP_PARSER_TAB_H_INCLUDED
-/* Debug traces.  */
-#ifndef YYDEBUG
-# define YYDEBUG 0
-#endif
-#if YYDEBUG
-extern int yydebug;
-#endif
-
-/* Token kinds.  */
+/* Tokens.  */
 #ifndef YYTOKENTYPE
 # define YYTOKENTYPE
-  enum yytokentype
-  {
-    YYEMPTY = -2,
-    YYEOF = 0,                     /* "end of file"  */
-    YYerror = 256,                 /* error  */
-    YYUNDEF = 257,                 /* "invalid token"  */
-    NUMBER = 258                   /* NUMBER  */
-  };
-  typedef enum yytokentype yytoken_kind_t;
+   /* Put the tokens into the symbol table, so that GDB and other debuggers
+      know about them.  */
+   enum yytokentype {
+     PROGRAM = 258,
+     FUNCTION = 259,
+     PROCEDURE = 260,
+     PRINTFF = 261,
+     INCLUDE = 262,
+     IF = 263,
+     ELSE = 264,
+     THEN = 265,
+     DO = 266,
+     WHILE = 267,
+     OR = 268,
+     NOT = 269,
+     AND = 270,
+     END = 271,
+     OF = 272,
+     FOR = 273,
+     INTEGER = 274,
+     VAR = 275,
+     ARRAY = 276,
+     NUMBER = 277,
+     READ = 278,
+     WRITE = 279,
+     BEGIN_SYM = 280,
+     END_SYM = 281,
+     IDENTIFIER = 282,
+     STRING = 283,
+     ASSIGNOP = 284,
+     RELOP = 285,
+     ADDOP = 286,
+     MULOP = 287,
+     LPAREN = 288,
+     RPAREN = 289,
+     LBRACKET = 290,
+     RBRACKET = 291,
+     LCURLBRACKET = 292,
+     RCURLBRACKET = 293,
+     COMMA = 294,
+     SEMICOLON = 295
+   };
 #endif
 
-/* Value type.  */
+
+
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+typedef union YYSTYPE
+{
+
+/* Line 1676 of yacc.c  */
+#line 34 "parser.y"
+
+    char* str;  // For IDENTIFIER
+    int num;    // For NUMBER
+
+
+/* Line 1676 of yacc.c  */
+#line 40 "parser.y"
+
+    struct {
+        char *type;    // Type of Instruction e.g declare
+        char *arg1;    // Operand 1 (e.g., variable, condition)
+        char *arg2;    // Operand 2 (e.g., value to compare with)
+        char *result;  // Result (e.g., label to jump to)
+        char *op;      // Operator (e.g., 'goto', 'if', '==', etc.)
+    } IRInstruction;
+    
+    // Define a list to hold intermediate code instructions
+    struct {
+        IRInstruction *instructions;
+        int size;
+        int capacity;
+    } IRList;
+
+
+
+/* Line 1676 of yacc.c  */
+#line 118 "parser.tab.h"
+} YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
+# define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 #endif
-
 
 extern YYSTYPE yylval;
 
 
-int yyparse (void);
-
-
-#endif /* !YY_YY_USERS_SEEMA_DESKTOP_PARSER_TAB_H_INCLUDED  */

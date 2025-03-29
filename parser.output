@@ -1,0 +1,936 @@
+Terminals unused in grammar
+
+   PROGRAM
+   PROCEDURE
+   PRINTFF
+   INCLUDE
+   THEN
+   OR
+   NOT
+   AND
+   END
+   OF
+   BEGIN_SYM
+   END_SYM
+   ADDOP
+   MULOP
+   COMMA
+
+
+State 15 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: function_declaration
+
+    2 function_declaration: FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LCURLBRACKET statement_list RCURLBRACKET
+
+    3 parameter_list: /* empty */
+    4               | INTEGER IDENTIFIER
+    5               | VAR IDENTIFIER
+    6               | parameter_list SEMICOLON parameter_list
+
+    7 statement_list: /* empty */
+    8               | declaration_statement statement_list
+    9               | assignment_statement statement_list
+   10               | IF LPAREN expression RPAREN LCURLBRACKET statement_list RCURLBRACKET ELSE LCURLBRACKET statement_list RCURLBRACKET
+   11               | WHILE LPAREN expression RPAREN DO LCURLBRACKET statement_list RCURLBRACKET
+   12               | FOR LPAREN expression RPAREN LCURLBRACKET statement_list RCURLBRACKET
+   13               | READ IDENTIFIER SEMICOLON statement_list
+   14               | WRITE expression SEMICOLON statement_list
+
+   15 declaration_statement: INTEGER IDENTIFIER SEMICOLON
+   16                      | VAR IDENTIFIER SEMICOLON
+   17                      | INTEGER ARRAY LBRACKET INTEGER RBRACKET IDENTIFIER
+   18                      | VAR ARRAY LBRACKET INTEGER RBRACKET IDENTIFIER
+   19                      | INTEGER IDENTIFIER ASSIGNOP NUMBER SEMICOLON
+
+   20 assignment_statement: IDENTIFIER ASSIGNOP INTEGER SEMICOLON
+   21                     | IDENTIFIER ASSIGNOP STRING SEMICOLON
+   22                     | IDENTIFIER ASSIGNOP NUMBER SEMICOLON
+
+   23 expression: NUMBER
+   24           | STRING
+   25           | INTEGER
+   26           | IDENTIFIER RELOP NUMBER
+   27           | IDENTIFIER RELOP STRING
+   28           | IDENTIFIER RELOP INTEGER
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+PROGRAM (258)
+FUNCTION (259) 2
+PROCEDURE (260)
+PRINTFF (261)
+INCLUDE (262)
+IF (263) 10
+ELSE (264) 10
+THEN (265)
+DO (266) 11
+WHILE (267) 11
+OR (268)
+NOT (269)
+AND (270)
+END (271)
+OF (272)
+FOR (273) 12
+INTEGER (274) 4 15 17 18 19 20 25 28
+VAR (275) 5 16 18
+ARRAY (276) 17 18
+NUMBER (277) 19 22 23 26
+READ (278) 13
+WRITE (279) 14
+BEGIN_SYM (280)
+END_SYM (281)
+IDENTIFIER (282) 2 4 5 13 15 16 17 18 19 20 21 22 26 27 28
+STRING (283) 21 24 27
+ASSIGNOP (284) 19 20 21 22
+RELOP (285) 26 27 28
+ADDOP (286)
+MULOP (287)
+LPAREN (288) 2 10 11 12
+RPAREN (289) 2 10 11 12
+LBRACKET (290) 17 18
+RBRACKET (291) 17 18
+LCURLBRACKET (292) 2 10 11 12
+RCURLBRACKET (293) 2 10 11 12
+COMMA (294)
+SEMICOLON (295) 6 13 14 15 16 19 20 21 22
+
+
+Nonterminals, with rules where they appear
+
+$accept (41)
+    on left: 0
+program (42)
+    on left: 1, on right: 0
+function_declaration (43)
+    on left: 2, on right: 1
+parameter_list (44)
+    on left: 3 4 5 6, on right: 2 6
+statement_list (45)
+    on left: 7 8 9 10 11 12 13 14, on right: 2 8 9 10 11 12 13 14
+declaration_statement (46)
+    on left: 15 16 17 18 19, on right: 8
+assignment_statement (47)
+    on left: 20 21 22, on right: 9
+expression (48)
+    on left: 23 24 25 26 27 28, on right: 10 11 12 14
+
+
+state 0
+
+    0 $accept: . program $end
+
+    FUNCTION  shift, and go to state 1
+
+    program               go to state 2
+    function_declaration  go to state 3
+
+
+state 1
+
+    2 function_declaration: FUNCTION . IDENTIFIER LPAREN parameter_list RPAREN LCURLBRACKET statement_list RCURLBRACKET
+
+    IDENTIFIER  shift, and go to state 4
+
+
+state 2
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 5
+
+
+state 3
+
+    1 program: function_declaration .
+
+    $default  reduce using rule 1 (program)
+
+
+state 4
+
+    2 function_declaration: FUNCTION IDENTIFIER . LPAREN parameter_list RPAREN LCURLBRACKET statement_list RCURLBRACKET
+
+    LPAREN  shift, and go to state 6
+
+
+state 5
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+state 6
+
+    2 function_declaration: FUNCTION IDENTIFIER LPAREN . parameter_list RPAREN LCURLBRACKET statement_list RCURLBRACKET
+
+    INTEGER  shift, and go to state 7
+    VAR      shift, and go to state 8
+
+    $default  reduce using rule 3 (parameter_list)
+
+    parameter_list  go to state 9
+
+
+state 7
+
+    4 parameter_list: INTEGER . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 10
+
+
+state 8
+
+    5 parameter_list: VAR . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 11
+
+
+state 9
+
+    2 function_declaration: FUNCTION IDENTIFIER LPAREN parameter_list . RPAREN LCURLBRACKET statement_list RCURLBRACKET
+    6 parameter_list: parameter_list . SEMICOLON parameter_list
+
+    RPAREN     shift, and go to state 12
+    SEMICOLON  shift, and go to state 13
+
+
+state 10
+
+    4 parameter_list: INTEGER IDENTIFIER .
+
+    $default  reduce using rule 4 (parameter_list)
+
+
+state 11
+
+    5 parameter_list: VAR IDENTIFIER .
+
+    $default  reduce using rule 5 (parameter_list)
+
+
+state 12
+
+    2 function_declaration: FUNCTION IDENTIFIER LPAREN parameter_list RPAREN . LCURLBRACKET statement_list RCURLBRACKET
+
+    LCURLBRACKET  shift, and go to state 14
+
+
+state 13
+
+    6 parameter_list: parameter_list SEMICOLON . parameter_list
+
+    INTEGER  shift, and go to state 7
+    VAR      shift, and go to state 8
+
+    $default  reduce using rule 3 (parameter_list)
+
+    parameter_list  go to state 15
+
+
+state 14
+
+    2 function_declaration: FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LCURLBRACKET . statement_list RCURLBRACKET
+
+    IF          shift, and go to state 16
+    WHILE       shift, and go to state 17
+    FOR         shift, and go to state 18
+    INTEGER     shift, and go to state 19
+    VAR         shift, and go to state 20
+    READ        shift, and go to state 21
+    WRITE       shift, and go to state 22
+    IDENTIFIER  shift, and go to state 23
+
+    $default  reduce using rule 7 (statement_list)
+
+    statement_list         go to state 24
+    declaration_statement  go to state 25
+    assignment_statement   go to state 26
+
+
+state 15
+
+    6 parameter_list: parameter_list . SEMICOLON parameter_list
+    6               | parameter_list SEMICOLON parameter_list .
+
+    SEMICOLON  shift, and go to state 13
+
+    SEMICOLON  [reduce using rule 6 (parameter_list)]
+    $default   reduce using rule 6 (parameter_list)
+
+
+state 16
+
+   10 statement_list: IF . LPAREN expression RPAREN LCURLBRACKET statement_list RCURLBRACKET ELSE LCURLBRACKET statement_list RCURLBRACKET
+
+    LPAREN  shift, and go to state 27
+
+
+state 17
+
+   11 statement_list: WHILE . LPAREN expression RPAREN DO LCURLBRACKET statement_list RCURLBRACKET
+
+    LPAREN  shift, and go to state 28
+
+
+state 18
+
+   12 statement_list: FOR . LPAREN expression RPAREN LCURLBRACKET statement_list RCURLBRACKET
+
+    LPAREN  shift, and go to state 29
+
+
+state 19
+
+   15 declaration_statement: INTEGER . IDENTIFIER SEMICOLON
+   17                      | INTEGER . ARRAY LBRACKET INTEGER RBRACKET IDENTIFIER
+   19                      | INTEGER . IDENTIFIER ASSIGNOP NUMBER SEMICOLON
+
+    ARRAY       shift, and go to state 30
+    IDENTIFIER  shift, and go to state 31
+
+
+state 20
+
+   16 declaration_statement: VAR . IDENTIFIER SEMICOLON
+   18                      | VAR . ARRAY LBRACKET INTEGER RBRACKET IDENTIFIER
+
+    ARRAY       shift, and go to state 32
+    IDENTIFIER  shift, and go to state 33
+
+
+state 21
+
+   13 statement_list: READ . IDENTIFIER SEMICOLON statement_list
+
+    IDENTIFIER  shift, and go to state 34
+
+
+state 22
+
+   14 statement_list: WRITE . expression SEMICOLON statement_list
+
+    INTEGER     shift, and go to state 35
+    NUMBER      shift, and go to state 36
+    IDENTIFIER  shift, and go to state 37
+    STRING      shift, and go to state 38
+
+    expression  go to state 39
+
+
+state 23
+
+   20 assignment_statement: IDENTIFIER . ASSIGNOP INTEGER SEMICOLON
+   21                     | IDENTIFIER . ASSIGNOP STRING SEMICOLON
+   22                     | IDENTIFIER . ASSIGNOP NUMBER SEMICOLON
+
+    ASSIGNOP  shift, and go to state 40
+
+
+state 24
+
+    2 function_declaration: FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LCURLBRACKET statement_list . RCURLBRACKET
+
+    RCURLBRACKET  shift, and go to state 41
+
+
+state 25
+
+    8 statement_list: declaration_statement . statement_list
+
+    IF          shift, and go to state 16
+    WHILE       shift, and go to state 17
+    FOR         shift, and go to state 18
+    INTEGER     shift, and go to state 19
+    VAR         shift, and go to state 20
+    READ        shift, and go to state 21
+    WRITE       shift, and go to state 22
+    IDENTIFIER  shift, and go to state 23
+
+    $default  reduce using rule 7 (statement_list)
+
+    statement_list         go to state 42
+    declaration_statement  go to state 25
+    assignment_statement   go to state 26
+
+
+state 26
+
+    9 statement_list: assignment_statement . statement_list
+
+    IF          shift, and go to state 16
+    WHILE       shift, and go to state 17
+    FOR         shift, and go to state 18
+    INTEGER     shift, and go to state 19
+    VAR         shift, and go to state 20
+    READ        shift, and go to state 21
+    WRITE       shift, and go to state 22
+    IDENTIFIER  shift, and go to state 23
+
+    $default  reduce using rule 7 (statement_list)
+
+    statement_list         go to state 43
+    declaration_statement  go to state 25
+    assignment_statement   go to state 26
+
+
+state 27
+
+   10 statement_list: IF LPAREN . expression RPAREN LCURLBRACKET statement_list RCURLBRACKET ELSE LCURLBRACKET statement_list RCURLBRACKET
+
+    INTEGER     shift, and go to state 35
+    NUMBER      shift, and go to state 36
+    IDENTIFIER  shift, and go to state 37
+    STRING      shift, and go to state 38
+
+    expression  go to state 44
+
+
+state 28
+
+   11 statement_list: WHILE LPAREN . expression RPAREN DO LCURLBRACKET statement_list RCURLBRACKET
+
+    INTEGER     shift, and go to state 35
+    NUMBER      shift, and go to state 36
+    IDENTIFIER  shift, and go to state 37
+    STRING      shift, and go to state 38
+
+    expression  go to state 45
+
+
+state 29
+
+   12 statement_list: FOR LPAREN . expression RPAREN LCURLBRACKET statement_list RCURLBRACKET
+
+    INTEGER     shift, and go to state 35
+    NUMBER      shift, and go to state 36
+    IDENTIFIER  shift, and go to state 37
+    STRING      shift, and go to state 38
+
+    expression  go to state 46
+
+
+state 30
+
+   17 declaration_statement: INTEGER ARRAY . LBRACKET INTEGER RBRACKET IDENTIFIER
+
+    LBRACKET  shift, and go to state 47
+
+
+state 31
+
+   15 declaration_statement: INTEGER IDENTIFIER . SEMICOLON
+   19                      | INTEGER IDENTIFIER . ASSIGNOP NUMBER SEMICOLON
+
+    ASSIGNOP   shift, and go to state 48
+    SEMICOLON  shift, and go to state 49
+
+
+state 32
+
+   18 declaration_statement: VAR ARRAY . LBRACKET INTEGER RBRACKET IDENTIFIER
+
+    LBRACKET  shift, and go to state 50
+
+
+state 33
+
+   16 declaration_statement: VAR IDENTIFIER . SEMICOLON
+
+    SEMICOLON  shift, and go to state 51
+
+
+state 34
+
+   13 statement_list: READ IDENTIFIER . SEMICOLON statement_list
+
+    SEMICOLON  shift, and go to state 52
+
+
+state 35
+
+   25 expression: INTEGER .
+
+    $default  reduce using rule 25 (expression)
+
+
+state 36
+
+   23 expression: NUMBER .
+
+    $default  reduce using rule 23 (expression)
+
+
+state 37
+
+   26 expression: IDENTIFIER . RELOP NUMBER
+   27           | IDENTIFIER . RELOP STRING
+   28           | IDENTIFIER . RELOP INTEGER
+
+    RELOP  shift, and go to state 53
+
+
+state 38
+
+   24 expression: STRING .
+
+    $default  reduce using rule 24 (expression)
+
+
+state 39
+
+   14 statement_list: WRITE expression . SEMICOLON statement_list
+
+    SEMICOLON  shift, and go to state 54
+
+
+state 40
+
+   20 assignment_statement: IDENTIFIER ASSIGNOP . INTEGER SEMICOLON
+   21                     | IDENTIFIER ASSIGNOP . STRING SEMICOLON
+   22                     | IDENTIFIER ASSIGNOP . NUMBER SEMICOLON
+
+    INTEGER  shift, and go to state 55
+    NUMBER   shift, and go to state 56
+    STRING   shift, and go to state 57
+
+
+state 41
+
+    2 function_declaration: FUNCTION IDENTIFIER LPAREN parameter_list RPAREN LCURLBRACKET statement_list RCURLBRACKET .
+
+    $default  reduce using rule 2 (function_declaration)
+
+
+state 42
+
+    8 statement_list: declaration_statement statement_list .
+
+    $default  reduce using rule 8 (statement_list)
+
+
+state 43
+
+    9 statement_list: assignment_statement statement_list .
+
+    $default  reduce using rule 9 (statement_list)
+
+
+state 44
+
+   10 statement_list: IF LPAREN expression . RPAREN LCURLBRACKET statement_list RCURLBRACKET ELSE LCURLBRACKET statement_list RCURLBRACKET
+
+    RPAREN  shift, and go to state 58
+
+
+state 45
+
+   11 statement_list: WHILE LPAREN expression . RPAREN DO LCURLBRACKET statement_list RCURLBRACKET
+
+    RPAREN  shift, and go to state 59
+
+
+state 46
+
+   12 statement_list: FOR LPAREN expression . RPAREN LCURLBRACKET statement_list RCURLBRACKET
+
+    RPAREN  shift, and go to state 60
+
+
+state 47
+
+   17 declaration_statement: INTEGER ARRAY LBRACKET . INTEGER RBRACKET IDENTIFIER
+
+    INTEGER  shift, and go to state 61
+
+
+state 48
+
+   19 declaration_statement: INTEGER IDENTIFIER ASSIGNOP . NUMBER SEMICOLON
+
+    NUMBER  shift, and go to state 62
+
+
+state 49
+
+   15 declaration_statement: INTEGER IDENTIFIER SEMICOLON .
+
+    $default  reduce using rule 15 (declaration_statement)
+
+
+state 50
+
+   18 declaration_statement: VAR ARRAY LBRACKET . INTEGER RBRACKET IDENTIFIER
+
+    INTEGER  shift, and go to state 63
+
+
+state 51
+
+   16 declaration_statement: VAR IDENTIFIER SEMICOLON .
+
+    $default  reduce using rule 16 (declaration_statement)
+
+
+state 52
+
+   13 statement_list: READ IDENTIFIER SEMICOLON . statement_list
+
+    IF          shift, and go to state 16
+    WHILE       shift, and go to state 17
+    FOR         shift, and go to state 18
+    INTEGER     shift, and go to state 19
+    VAR         shift, and go to state 20
+    READ        shift, and go to state 21
+    WRITE       shift, and go to state 22
+    IDENTIFIER  shift, and go to state 23
+
+    $default  reduce using rule 7 (statement_list)
+
+    statement_list         go to state 64
+    declaration_statement  go to state 25
+    assignment_statement   go to state 26
+
+
+state 53
+
+   26 expression: IDENTIFIER RELOP . NUMBER
+   27           | IDENTIFIER RELOP . STRING
+   28           | IDENTIFIER RELOP . INTEGER
+
+    INTEGER  shift, and go to state 65
+    NUMBER   shift, and go to state 66
+    STRING   shift, and go to state 67
+
+
+state 54
+
+   14 statement_list: WRITE expression SEMICOLON . statement_list
+
+    IF          shift, and go to state 16
+    WHILE       shift, and go to state 17
+    FOR         shift, and go to state 18
+    INTEGER     shift, and go to state 19
+    VAR         shift, and go to state 20
+    READ        shift, and go to state 21
+    WRITE       shift, and go to state 22
+    IDENTIFIER  shift, and go to state 23
+
+    $default  reduce using rule 7 (statement_list)
+
+    statement_list         go to state 68
+    declaration_statement  go to state 25
+    assignment_statement   go to state 26
+
+
+state 55
+
+   20 assignment_statement: IDENTIFIER ASSIGNOP INTEGER . SEMICOLON
+
+    SEMICOLON  shift, and go to state 69
+
+
+state 56
+
+   22 assignment_statement: IDENTIFIER ASSIGNOP NUMBER . SEMICOLON
+
+    SEMICOLON  shift, and go to state 70
+
+
+state 57
+
+   21 assignment_statement: IDENTIFIER ASSIGNOP STRING . SEMICOLON
+
+    SEMICOLON  shift, and go to state 71
+
+
+state 58
+
+   10 statement_list: IF LPAREN expression RPAREN . LCURLBRACKET statement_list RCURLBRACKET ELSE LCURLBRACKET statement_list RCURLBRACKET
+
+    LCURLBRACKET  shift, and go to state 72
+
+
+state 59
+
+   11 statement_list: WHILE LPAREN expression RPAREN . DO LCURLBRACKET statement_list RCURLBRACKET
+
+    DO  shift, and go to state 73
+
+
+state 60
+
+   12 statement_list: FOR LPAREN expression RPAREN . LCURLBRACKET statement_list RCURLBRACKET
+
+    LCURLBRACKET  shift, and go to state 74
+
+
+state 61
+
+   17 declaration_statement: INTEGER ARRAY LBRACKET INTEGER . RBRACKET IDENTIFIER
+
+    RBRACKET  shift, and go to state 75
+
+
+state 62
+
+   19 declaration_statement: INTEGER IDENTIFIER ASSIGNOP NUMBER . SEMICOLON
+
+    SEMICOLON  shift, and go to state 76
+
+
+state 63
+
+   18 declaration_statement: VAR ARRAY LBRACKET INTEGER . RBRACKET IDENTIFIER
+
+    RBRACKET  shift, and go to state 77
+
+
+state 64
+
+   13 statement_list: READ IDENTIFIER SEMICOLON statement_list .
+
+    $default  reduce using rule 13 (statement_list)
+
+
+state 65
+
+   28 expression: IDENTIFIER RELOP INTEGER .
+
+    $default  reduce using rule 28 (expression)
+
+
+state 66
+
+   26 expression: IDENTIFIER RELOP NUMBER .
+
+    $default  reduce using rule 26 (expression)
+
+
+state 67
+
+   27 expression: IDENTIFIER RELOP STRING .
+
+    $default  reduce using rule 27 (expression)
+
+
+state 68
+
+   14 statement_list: WRITE expression SEMICOLON statement_list .
+
+    $default  reduce using rule 14 (statement_list)
+
+
+state 69
+
+   20 assignment_statement: IDENTIFIER ASSIGNOP INTEGER SEMICOLON .
+
+    $default  reduce using rule 20 (assignment_statement)
+
+
+state 70
+
+   22 assignment_statement: IDENTIFIER ASSIGNOP NUMBER SEMICOLON .
+
+    $default  reduce using rule 22 (assignment_statement)
+
+
+state 71
+
+   21 assignment_statement: IDENTIFIER ASSIGNOP STRING SEMICOLON .
+
+    $default  reduce using rule 21 (assignment_statement)
+
+
+state 72
+
+   10 statement_list: IF LPAREN expression RPAREN LCURLBRACKET . statement_list RCURLBRACKET ELSE LCURLBRACKET statement_list RCURLBRACKET
+
+    IF          shift, and go to state 16
+    WHILE       shift, and go to state 17
+    FOR         shift, and go to state 18
+    INTEGER     shift, and go to state 19
+    VAR         shift, and go to state 20
+    READ        shift, and go to state 21
+    WRITE       shift, and go to state 22
+    IDENTIFIER  shift, and go to state 23
+
+    $default  reduce using rule 7 (statement_list)
+
+    statement_list         go to state 78
+    declaration_statement  go to state 25
+    assignment_statement   go to state 26
+
+
+state 73
+
+   11 statement_list: WHILE LPAREN expression RPAREN DO . LCURLBRACKET statement_list RCURLBRACKET
+
+    LCURLBRACKET  shift, and go to state 79
+
+
+state 74
+
+   12 statement_list: FOR LPAREN expression RPAREN LCURLBRACKET . statement_list RCURLBRACKET
+
+    IF          shift, and go to state 16
+    WHILE       shift, and go to state 17
+    FOR         shift, and go to state 18
+    INTEGER     shift, and go to state 19
+    VAR         shift, and go to state 20
+    READ        shift, and go to state 21
+    WRITE       shift, and go to state 22
+    IDENTIFIER  shift, and go to state 23
+
+    $default  reduce using rule 7 (statement_list)
+
+    statement_list         go to state 80
+    declaration_statement  go to state 25
+    assignment_statement   go to state 26
+
+
+state 75
+
+   17 declaration_statement: INTEGER ARRAY LBRACKET INTEGER RBRACKET . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 81
+
+
+state 76
+
+   19 declaration_statement: INTEGER IDENTIFIER ASSIGNOP NUMBER SEMICOLON .
+
+    $default  reduce using rule 19 (declaration_statement)
+
+
+state 77
+
+   18 declaration_statement: VAR ARRAY LBRACKET INTEGER RBRACKET . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 82
+
+
+state 78
+
+   10 statement_list: IF LPAREN expression RPAREN LCURLBRACKET statement_list . RCURLBRACKET ELSE LCURLBRACKET statement_list RCURLBRACKET
+
+    RCURLBRACKET  shift, and go to state 83
+
+
+state 79
+
+   11 statement_list: WHILE LPAREN expression RPAREN DO LCURLBRACKET . statement_list RCURLBRACKET
+
+    IF          shift, and go to state 16
+    WHILE       shift, and go to state 17
+    FOR         shift, and go to state 18
+    INTEGER     shift, and go to state 19
+    VAR         shift, and go to state 20
+    READ        shift, and go to state 21
+    WRITE       shift, and go to state 22
+    IDENTIFIER  shift, and go to state 23
+
+    $default  reduce using rule 7 (statement_list)
+
+    statement_list         go to state 84
+    declaration_statement  go to state 25
+    assignment_statement   go to state 26
+
+
+state 80
+
+   12 statement_list: FOR LPAREN expression RPAREN LCURLBRACKET statement_list . RCURLBRACKET
+
+    RCURLBRACKET  shift, and go to state 85
+
+
+state 81
+
+   17 declaration_statement: INTEGER ARRAY LBRACKET INTEGER RBRACKET IDENTIFIER .
+
+    $default  reduce using rule 17 (declaration_statement)
+
+
+state 82
+
+   18 declaration_statement: VAR ARRAY LBRACKET INTEGER RBRACKET IDENTIFIER .
+
+    $default  reduce using rule 18 (declaration_statement)
+
+
+state 83
+
+   10 statement_list: IF LPAREN expression RPAREN LCURLBRACKET statement_list RCURLBRACKET . ELSE LCURLBRACKET statement_list RCURLBRACKET
+
+    ELSE  shift, and go to state 86
+
+
+state 84
+
+   11 statement_list: WHILE LPAREN expression RPAREN DO LCURLBRACKET statement_list . RCURLBRACKET
+
+    RCURLBRACKET  shift, and go to state 87
+
+
+state 85
+
+   12 statement_list: FOR LPAREN expression RPAREN LCURLBRACKET statement_list RCURLBRACKET .
+
+    $default  reduce using rule 12 (statement_list)
+
+
+state 86
+
+   10 statement_list: IF LPAREN expression RPAREN LCURLBRACKET statement_list RCURLBRACKET ELSE . LCURLBRACKET statement_list RCURLBRACKET
+
+    LCURLBRACKET  shift, and go to state 88
+
+
+state 87
+
+   11 statement_list: WHILE LPAREN expression RPAREN DO LCURLBRACKET statement_list RCURLBRACKET .
+
+    $default  reduce using rule 11 (statement_list)
+
+
+state 88
+
+   10 statement_list: IF LPAREN expression RPAREN LCURLBRACKET statement_list RCURLBRACKET ELSE LCURLBRACKET . statement_list RCURLBRACKET
+
+    IF          shift, and go to state 16
+    WHILE       shift, and go to state 17
+    FOR         shift, and go to state 18
+    INTEGER     shift, and go to state 19
+    VAR         shift, and go to state 20
+    READ        shift, and go to state 21
+    WRITE       shift, and go to state 22
+    IDENTIFIER  shift, and go to state 23
+
+    $default  reduce using rule 7 (statement_list)
+
+    statement_list         go to state 89
+    declaration_statement  go to state 25
+    assignment_statement   go to state 26
+
+
+state 89
+
+   10 statement_list: IF LPAREN expression RPAREN LCURLBRACKET statement_list RCURLBRACKET ELSE LCURLBRACKET statement_list . RCURLBRACKET
+
+    RCURLBRACKET  shift, and go to state 90
+
+
+state 90
+
+   10 statement_list: IF LPAREN expression RPAREN LCURLBRACKET statement_list RCURLBRACKET ELSE LCURLBRACKET statement_list RCURLBRACKET .
+
+    $default  reduce using rule 10 (statement_list)
