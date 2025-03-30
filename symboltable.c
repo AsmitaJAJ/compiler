@@ -62,7 +62,8 @@ Symbol* lookup_symbol(const char* name) {
 void print_symbol_table() {
     printf("\nSYMBOL TABLE:\n");
     printf("----------------------------\n");
-    printf("| %-15s | %-10s |\n", "Identifier", "Type", "LineNumber");
+    printf("| %-15s | %-10s | %-10s |\n", "Identifier", "Type", "LineNumber");
+
     printf("-----------------------------------------\n");
 
     for (int i = 0; i < TABLE_SIZE; i++) {
