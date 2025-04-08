@@ -1,0 +1,13 @@
+LN 3: DECLARE int a  
+LN 4: DECLARE int b  
+LN 6: ASSIGN 1  a 
+LN 7: ASSIGN 3  b 
+LN 15: ASSIGN 3  a 
+LN 18: ASSIGN 50  b 
+LN 22: ASSIGN 0  b 
+LN 23: IF a a 5  LABEL_TRUE 
+LN 24: WHILE a a 10  LOOP_START 
+
+--- Semantic Errors ----
+Number of Semantic Errors : 1
+LN 9, Error: Variable not declared before assignment , Variable Name: c

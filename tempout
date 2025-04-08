@@ -1,0 +1,46 @@
+IntermediateCode File deleted successfully.
+TargetCode File deleted successfully.
+
+SYMBOL TABLE:
+-----------------------------------------------------
+| Identifier      | Variable   | LineNumber |
+-----------------------------------------------------
+| a               | int        | 3
+-----------------------------------------------------
+
+SYMBOL TABLE:
+-----------------------------------------------------
+| Identifier      | Variable   | LineNumber |
+-----------------------------------------------------
+| a               | int        | 3
+| b               | int        | 4
+-----------------------------------------------------
+==== Error: Line 9, Variable c not declared before assignment ====
+In write sem errors====Error: Line Number: 11, Duplicate declaration of identifier a====
+In write sem errors
+SYMBOL TABLE:
+-----------------------------------------------------
+| Identifier      | Variable   | LineNumber |
+-----------------------------------------------------
+| a               | int        | 3
+| b               | int        | 4
+-----------------------------------------------------
+LN 3, DECLARE int a  
+LN 4, DECLARE int b  
+LN 6, ASSIGN 1  a 
+LN 7, ASSIGN 3  b 
+LN 11, DECLARE int a  
+LN 16, ASSIGN 3  a 
+LN 19, ASSIGN 50  b 
+LN 23, ASSIGN 0  b 
+LN 24, IF a a 5  LABEL_TRUE 
+LN 25, WHILE a a 10  LOOP_START 
+==== Number of Semantic Errors: 2 ====
+SemanticErrors File does not exist or could not be deleted.
+
+Semantic Errors TABLE:
+-----------------------------------------------------
+| Error MEssage        | Error Variable | LineNumber |
+-----------------------------------------------------
+-----------------------------------------------------
+====Target Code not generated - There are 2 semantic errors====

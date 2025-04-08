@@ -1,0 +1,4 @@
+
+--- Semantic Errors ----
+Number of Semantic Errors : 1
+LN 9, Error: Variable not declared before assignment , Variable Name: c

@@ -7,4 +7,4 @@ all:
 	
 	flex -d lexer.lex
 	bison -t -d -v parser.y
-	gcc -o mycomp.exe symboltable.c parser.tab.c lex.yy.c -lfl
+	gcc -o mycomp.exe symboltable.c parser.tab.c lex.yy.c -L C:/GnuWin32/lib -lfl
